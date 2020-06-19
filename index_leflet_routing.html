@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="lrm-graphhopper-1.2.0.js"></script>
+
+
+</head>
+<body>
+   <div id="mapid" style="width: 600px; height: 400px;"></div>
+
+
+
+<script>
+	var mymap = L.map('mapid').setView([60.0, 30.27], 13);
+
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(mymap);
+
+    L.Routing.control({
+        waypoints: [
+          L.latLng(60.0, 30.29),
+          L.latLng(60.03, 30.20)
+        ],
+        router: L.Routing.graphHopper(undefined /* no api key */, {
+          serviceUrl: 'http://127.0.0.1:8989/route'
+        })
+    }).addTo(mymap);
+
+</script>
+</body>
+</html>

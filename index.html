@@ -13,6 +13,10 @@
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
 
 
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="lrm-graphhopper-1.2.0.js"></script>
+
 
 </head>
 <body>
@@ -22,7 +26,7 @@
 <div id="mapid" style="width: 600px; height: 400px;"></div>
 <script>
 
-	var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+	var mymap = L.map('mapid').setView([60.0, 30.27], 13);
 
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
 		maxZoom: 18,
@@ -34,21 +38,18 @@
 		zoomOffset: -1
 	}).addTo(mymap);
 
-	L.marker([51.5, -0.09]).addTo(mymap)
+    L.Routing.control({
+        waypoints: [
+          L.latLng(60.5, 30.29),
+          L.latLng(60.9, 30.20)
+        ],
+        router: L.Routing.graphHopper(undefined /* no api key */, {
+            serviceUrl: 'http://127.0.0.1:8989/maps/api/v1/route'
+        })
+    }).addTo(mymap);
+
+	L.marker([60.0, 30.27]).addTo(mymap)
 		.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
-
-	L.circle([51.508, -0.11], 500, {
-		color: 'red',
-		fillColor: '#f03',
-		fillOpacity: 0.5
-	}).addTo(mymap).bindPopup("I am a circle.");
-
-	L.polygon([
-		[51.509, -0.08],
-		[51.503, -0.06],
-		[51.51, -0.047]
-	]).addTo(mymap).bindPopup("I am a polygon.");
-
 
 	var popup = L.popup();
 
@@ -60,6 +61,15 @@
 	}
 
 	mymap.on('click', onMapClick);
+
+
+
+
+
+
+
+
+
 
 </script>
 
